@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Create New User</title>
+  <link rel="stylesheet" href="styles/createuserstyles.css" />
+  <script type="text/javascript" src="code.js"></script>
+</head>
+<body>
+  <div class="create-user-container">
+    <h2>Create Your Account</h2>
+    
+    <!-- create form for user creation -->
+    <form id="createUserForm">
+      <input 
+        type="text"
+        name="firstName" 
+        id="firstName"
+        class="input-field" 
+        placeholder="Enter a first name" 
+        required
+      >
+      <input 
+        type="text"
+        name="lastName" 
+        id="lastName"
+        class="input-field" 
+        placeholder="Enter a last name" 
+        required
+      >
+      <!-- user section -->
+      <input 
+        type="text"
+        name="username" 
+        id="username"
+        class="input-field" 
+        placeholder="Enter a username" 
+        required
+      >
+      <!-- password section -->
+      <input 
+        type="password" 
+        name="password"
+        id="password"
+        class="input-field" 
+        placeholder="Enter a password" 
+        required
+      >
+      <!-- submit section -->
+      <input
+        type="button"
+        value="Create Account"
+        class="button create-button"
+        onclick="createUser();"
+      >
+    </form>
+
+    <!-- button for going back to login menu -->
+    <input
+      type="button"
+      value="Back to Login"
+      class="button back-button"
+      onclick="window.location.href='index.html';"
+    >
+  </div>
+
+</body>
+</html>
