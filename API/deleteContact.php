@@ -1,54 +1,57 @@
 <?php
-	$inData = getRequestInfo();
-    
-    // Might have to replace
-	$contactId = $inData["contactId"];
+# input from frontend
+$inData = getRequestInfo();
 
-	// More replacing
-	$conn = new mysqli("localhost", "DB_USER", "DB_PASSWORD", "DB_NAME");
-	if ($conn->connect_error)
-	{
-		returnWithError($conn->connect_error);
-	}
-	else
-	{
-		$stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=?");
-		$stmt->bind_param("i", $contactId);
-		$stmt->execute();
+# connect to database CONTACTSMANAGER
+$conn = new mysqli("localhost", "root", "k36oDQwM+jc6", "CONTACTSMANAGER");
+if( $conn->connect_error )
+{
+    returnWithError($conn->connect_error);
+}
+else
+{
+    # prepare query to delete contact
+    $stmt = $conn->prepare("DELETE FROM Contacts WHERE ContactID=? AND UserID=?");
 
-		if ($stmt->affected_rows > 0)
-		{
-			returnWithInfo("Contact deleted successfully");
-		}
-		else
-		{
-			returnWithError("No contact found or unable to delete");
-		}
+    # bind input values to query
+    $stmt->bind_param("ii", $inData["ContactID"], $inData["UserID"]);
 
-		$stmt->close();
-		$conn->close();
-	}
+    if($stmt->execute())
+    {
+        # successfully deleted contact
+        returnWithInfo("Contact deleted successfully");
+    }
+    else
+    {
+        # deletion failed
+        returnWithError($stmt->error);
+    }
 
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
+    # close connection
+    $stmt->close();
+    $conn->close();
+}
 
-	function sendResultInfoAsJson($obj)
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
+function getRequestInfo()
+{
+    return json_decode(file_get_contents('php://input'), true);
+}
 
-	function returnWithError($err)
-	{
-		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson($retValue);
-	}
+function sendResultInfoAsJson($obj)
+{
+    header('Content-type: application/json');
+    echo $obj;
+}
 
-	function returnWithInfo($msg)
-	{
-		$retValue = '{"error":"","message":"' . $msg . '"}';
-		sendResultInfoAsJson($retValue);
-	}
+function returnWithError($err)
+{
+    $retValue = '{"error":"' . $err . '"}';
+    sendResultInfoAsJson($retValue);
+}
+
+function returnWithInfo($message)
+{
+    $retValue = '{"message":"' . $message . '","error":""}';
+    sendResultInfoAsJson($retValue);
+}
 ?>

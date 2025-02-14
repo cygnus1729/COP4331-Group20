@@ -10,20 +10,20 @@ if( $conn->connect_error )
 }
 else
 {
-    # prepare query to create contact
-    $stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?, ?, ?, ?, ?)");
+    # prepare query to update contact
+    $stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Phone=?, Email=? WHERE ContactID=? AND UserID=?");
 
     # bind input values to query
-    $stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Phone"], $inData["Email"], $inData["UserID"]);
+    $stmt->bind_param("ssssii", $inData["FirstName"], $inData["LastName"], $inData["Phone"], $inData["Email"], $inData["ContactID"], $inData["UserID"]);
 
     if($stmt->execute())
     {
-        # successfully created contact
-        returnWithInfo("Contact created successfully");
+        # successfully updated contact
+        returnWithInfo("Contact updated successfully");
     }
     else
     {
-        # creation failed
+        # update failed
         returnWithError($stmt->error);
     }
 
