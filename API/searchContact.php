@@ -21,20 +21,27 @@
 		$stmt->bind_param("i", $inData["UserID"]);
 		$stmt->execute();
 
-		$rows = $stmt->fetchAll();
-
-		if(Count($rows) === 0)
+		$result = $stmt->get_result();
+		
+		while($row = $result->fetch_assoc())
 		{
-            # user has no contacts
-			returnEmpty();
+			if( $searchCount > 0 )
+			{
+				$searchResults .= ",";
+			}
+			$searchCount++;
+			$searchResults .= '"' . $row["Name"] . '"';
+		}
+		
+		if( $searchCount == 0 )
+		{
+			returnWithError( "No Records Found" );
 		}
 		else
 		{
-			# user has contacts
-			sendResultInfoAsJson($rows);
+			returnWithInfo( $searchResults );
 		}
-
-        # close connection to database
+		
 		$stmt->close();
 		$conn->close();
 	}

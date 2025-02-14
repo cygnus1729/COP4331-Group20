@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact Manager</title>
+
+  <!-- grab css file for styling -->
+  <link rel="stylesheet" href="styles/indexstyles.css" />
+  <script type="text/javascript" src="code.js"></script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Contact Manager</h2>
+    
+    <!-- create form for login -->
+    <form id="loginForm">
+      <!-- user section -->
+      <input
+        type="text"
+        name="username"
+        id="loginName"
+        class="input-field"
+        placeholder="Enter your username"
+        required
+      >
+      <!-- password section -->
+      <input
+        type="password"
+        name="password"
+        id="loginPassword"
+        class="input-field"
+        placeholder="Enter your password"
+        required
+      >
+      <!-- submit section -->
+      <input
+        type="button"
+        value="Log In"
+        class="button login-button" 
+        onclick="doLogin();"
+      >
+    </form>
+
+    <!-- text for new user creation -->
+    <div class="new-user-text">
+      New to the Contact Manager? Create an account below!
+    </div>
+    
+    <!-- button for new user creation -->
+    <input
+      type="button"
+      value="Create New Account"
+      class="button create-account-button"
+      onclick="window.location.href='createuser.html';"
+    >
+  </div>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
 	$email     = $inData["email"];
 
 	// We need to replace with DB credentials and name to connect
-	$conn = new mysqli("localhost", "DB_USER", "DB_PASSWORD", "DB_NAME");
+	$conn = new mysqli("localhost", "root", "", "User");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error);

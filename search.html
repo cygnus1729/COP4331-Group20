@@ -1,0 +1,59 @@
+<html>
+
+<head>
+	<title>Contact Manager</title>
+	<script type="text/javascript" src="code.js"></script>
+	<link href="styles/searchstyles.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+</head>
+
+<body>
+
+	<h1 id="title">Contact Manager</h1>
+
+	<div id="loggedInDiv">
+		<span id="userName"></span><br />
+		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
+	</div>
+
+	<div id="accessUIDiv">
+		<br />
+
+		<button type="button" id="addContactButton" class="buttons" onclick="openModal()"> Add Contact </button><br />
+		<span id="contactAddResult"></span>
+		</p><br /><br />
+
+		<input type="text" id="searchText" placeholder="Enter contact To Search For" />
+		<button type="button" id="searchContactButton" class="buttons" onclick="searchContact();"> Search Contact
+		</button><br />
+		<span id="contactSearchResult"></span>
+		<p id="contactList">
+		</p><br /><br />
+
+		<input type="text" id="contactText" placeholder="Enter contact To Delete">
+		<button type="button" id="deleteContactButton" class="buttons" onclick="deleteContact();"> Delete Contact
+		</button><br />
+		<span id="contactDeleteResult"></span>
+	</div>
+
+	<div id="modal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="closeModal()">&times;</span>
+			<h2>Add Contact</h2>
+
+			<form id="addContactForm">
+				<input type="text" id="contactName" placeholder="Enter first name" required><br><br>
+
+				<input type="text" id="contactName" placeholder="Enter last name" required><br><br>
+
+				<input type="text" id="contactPhone" placeholder="Enter phone" required><br><br>
+
+				<input type="text" id="contactEmail" placeholder="Enter email" required><br><br>
+
+				<button type="button" onclick="createContact(); closeModal();">Add Contact</button>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
