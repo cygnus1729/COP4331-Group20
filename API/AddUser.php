@@ -15,10 +15,10 @@
     else
 	{
         # prepare query to get id, firstname, and last name
-        $stmt = $conn->prepare("INSERT INTO Users (ID, FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
 
         # bind login and password from frontend to query
-		$stmt->bind_param("issss", $inData["ID"], $inData["FirstName"], $inData["LastName"], $inData["Login"], $inData["Password"]);
+		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Login"], $inData["Password"]);
 
 		if( $stmt->execute() )
 		{
