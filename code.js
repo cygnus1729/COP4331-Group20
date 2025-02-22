@@ -144,21 +144,65 @@ function createUser()
 }
 
 // Open the modal
-function openModal() {
-	document.getElementById("modal").style.display = "block";
+function openAddModal() {
+	document.getElementById("addModal").style.display = "block";
 }
 
 // Close the modal
 function closeModal() {
-	document.getElementById("modal").style.display = "none";
+	document.getElementById("addModal").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", loadContacts);
+async function loadContacts() {
+    try {
+		url = urlBase + '/loadContacts.' + extension
+        const response = await fetch(url); // Change from localhost
+        const contacts = await response.json();
+        const container = document.getElementById("container");
+
+        container.innerHTML = ""; // Clear previous content
+
+		const headerCard = document.createElement("div");
+		headerCard.classList.add("headerCard");
+		headerCard.innerHTML = `
+			<span><strong>ID</strong></span>
+			<span><strong>Name</strong></span>
+			<span><strong>Phone</strong></span>
+			<span><strong>Email</strong></span>
+			<span><strong>Update/Delete</strong></span>
+		`;
+		container.appendChild(headerCard);
+
+        contacts.forEach(contact => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `
+				<span><strong></strong> ${contact.id}</span>
+        		<span><strong></strong> ${contact.firstName} ${contact.lastName}</span>
+        		<span><strong></strong> ${contact.phone}</span>
+        		<span><strong></strong> ${contact.email}</span>
+				<div class="button">
+					<button class="update" onclick="updateContact(${contact.id})">&#9998;</button>
+            		<button class="delete" onclick="deleteContact(${contact.id}, '${contact.firstName}')">&#10006;</button>
+				</div>
+			`;
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Error loading contacts:", error);
+    }
 }
 
 function createContact()
 {
-	let newContact = document.getElementById("contactText").value;
-	document.getElementById("contactAddResult").innerHTML = "";
+	let newFirst = document.getElementById("contactFirstName").value;
+	let newLast = document.getElementById("contactLastName").value;
+	let newPhone = document.getElementById("contactPhone").value;
+	let newEmail = document.getElementById("contactEmail").value;
+	//document.getElementById("contactAddResult").innerHTML = "";
 
-	let tmp = {contact:newContact,userId,userId};
+	let tmp = {firstName:newFirst,lastName:newLast,phone:newPhone,email:newEmail};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/createContact.' + extension;
@@ -172,14 +216,15 @@ function createContact()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+				loadContacts();
+	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("contactAddResult").innerHTML = err.message;
+	//	document.getElementById("contactAddResult").innerHTML = err.message;
 	}
 	
 }
@@ -227,4 +272,34 @@ function searchContact()
 		document.getElementById("contactSearchResult").innerHTML = err.message;
 	}
 	
+}
+
+function deleteContact(contactId, firstName)
+{ 
+	if (confirm("Are you sure you want to delete " + firstName + "?")) {
+		let tmp = {contactId:contactId};
+		let jsonPayload = JSON.stringify( tmp );
+
+		let url = urlBase + '/deleteContact.' + extension;
+	
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		try
+		{
+			xhr.onreadystatechange = function() 
+			{
+				if (this.readyState == 4 && this.status == 200) 
+				{
+					loadContacts();
+	//				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+				}
+			};
+			xhr.send(jsonPayload);
+		}
+		catch(err)
+		{
+		//	document.getElementById("contactAddResult").innerHTML = err.message;
+		}
+	}
 }

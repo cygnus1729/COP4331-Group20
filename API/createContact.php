@@ -1,22 +1,25 @@
 <?php
+	session_start();
+
 	$inData = getRequestInfo();
 
     // Might have to replace these depending on name of fields in DB
-	$userId    = $inData["userId"];      
 	$firstName = $inData["firstName"];
-	$lastName  = $inData["lastName"];
-	$email     = $inData["email"];
+	$lastName = $inData["lastName"];
+	$phone = $inData["phone"];
+	$email = $inData["email"];
+	$userId = $_SESSION['userId'];
 
 	// We need to replace with DB credentials and name to connect
-	$conn = new mysqli("localhost", "root", "", "User");
+	$conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error);
 	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT INTO Contacts (UserID, FirstName, LastName, Email) VALUES (?,?,?,?)");
-		$stmt->bind_param("isss", $userId, $firstName, $lastName, $email);
+		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?,?,?,?,?)");
+		$stmt->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userId);
 		$stmt->execute();
 
 		if ($stmt->affected_rows > 0)

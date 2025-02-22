@@ -5,7 +5,7 @@
 	$contactId = $inData["contactId"];
 
 	// More replacing
-	$conn = new mysqli("localhost", "DB_USER", "DB_PASSWORD", "DB_NAME");
+	$conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
 	if ($conn->connect_error)
 	{
 		returnWithError($conn->connect_error);

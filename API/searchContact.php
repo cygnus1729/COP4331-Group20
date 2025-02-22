@@ -7,15 +7,15 @@
     $lastName = "";
 
     # connect to database CONTACTSMANAGER on lacalhost server, as root with password
-    $conn = new mysqli("localhost", "root", "k36oDQwM+jc6", "CONTACTSMANAGER");
+    $conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
     if( $conn->connect_error )
 	{
 		returnWithError( $conn->connect_error );
 	}
     else
 	{
-        # prepare query to get id, firstname, and last name
-        $stmt = $conn->prepare("SELECT * FROM Contacts WHERE UserID=?");
+        # prepare query to get contact information
+        $stmt = $conn->prepare("SELECT * FROM contacts WHERE UserID=?");
 
         # bind login and password from frontend to query
 		$stmt->bind_param("i", $inData["UserID"]);

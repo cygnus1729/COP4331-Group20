@@ -9,42 +9,25 @@
 
 <body>
 
-	<h1 id="title">Contact Manager</h1>
-
-	<div id="loggedInDiv">
-		<span id="userName"></span><br />
-		<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
+	<div class="sidebar">
+		<button id="addContact" onclick="openAddModal()">Add Contact</button>
+		<button id="searchContact">Search Contact</button>
+		<button id="logout" onclick="doLogout()">Logout</button>
 	</div>
 
-	<div id="accessUIDiv">
-		<br />
+	<div class="main" id="container"></div>
 
-		<button type="button" id="addContactButton" class="buttons" onclick="openModal()"> Add Contact </button><br />
-		<span id="contactAddResult"></span>
-		</p><br /><br />
-
-		<input type="text" id="searchText" placeholder="Enter contact To Search For" />
-		<button type="button" id="searchContactButton" class="buttons" onclick="searchContact();"> Search Contact
-		</button><br />
-		<span id="contactSearchResult"></span>
-		<p id="contactList">
-		</p><br /><br />
-
-		<input type="text" id="contactText" placeholder="Enter contact To Delete">
-		<button type="button" id="deleteContactButton" class="buttons" onclick="deleteContact();"> Delete Contact
-		</button><br />
-		<span id="contactDeleteResult"></span>
-	</div>
-
-	<div id="modal" class="modal">
-		<div class="modal-content">
-			<span class="close" onclick="closeModal()">&times;</span>
-			<h2>Add Contact</h2>
+	<div id="addModal" class="modal">
+		<div class="modalContent">
+			<div class="modalHeader">
+				<button class="modalClose" id="close" onclick="closeModal()">Cancel</button>
+				<h2>Add Contact</h2>
+			</div>
 
 			<form id="addContactForm">
-				<input type="text" id="contactName" placeholder="Enter first name" required><br><br>
+				<input type="text" id="contactFirstName" placeholder="Enter first name" required><br><br>
 
-				<input type="text" id="contactName" placeholder="Enter last name" required><br><br>
+				<input type="text" id="contactLastName" placeholder="Enter last name" required><br><br>
 
 				<input type="text" id="contactPhone" placeholder="Enter phone" required><br><br>
 
