@@ -1,12 +1,23 @@
 <?php
+    session_start();
+    
+    if (isset($_SESSION['userId'])) {
+        $userId = $_SESSION['userId'];
+    } else {
+        returnWithError("User ID is not set in the session.");
+    }
+
     # Connect to the database CONTACTSMANAGER on localhost server, as root with no password
     $conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
 
     if ($conn->connect_error) {
         returnWithError($conn->connect_error);
     } else {
+
         # Query to get all contacts
-        $stmt = $conn->prepare("SELECT * FROM contacts");
+        $stmt = $conn->prepare("SELECT * FROM contacts WHERE UserID = ?");
+        $stmt->bind_param("i", $userId);
+
         $stmt->execute();
 
         $result = $stmt->get_result();

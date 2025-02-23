@@ -100,13 +100,29 @@ function readCookie()
 	}
 }
 
-function doLogout()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+function doLogout() {
+    // Reset session variables in JavaScript
+    userId = 0;
+    firstName = "";
+    lastName = "";
+
+    // Delete any cookies that might store user data (e.g., firstName, userId)
+    document.cookie = "firstName=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+	url = urlBase + '/Logout.' + extension;
+
+    // Optionally, destroy the session on the server-side (if using PHP for session management)
+    // This would be an AJAX call to a logout PHP script on the server to handle session destruction
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);  // Make sure you have a PHP logout endpoint to destroy the session
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Redirect to the login page after server session is destroyed
+            window.location.href = "index.html";
+        }
+    };
+    xhr.send();
 }
 
 function createUser()
@@ -153,7 +169,11 @@ function closeModal() {
 	document.getElementById("addModal").style.display = "none";
 }
 
-document.addEventListener("DOMContentLoaded", loadContacts);
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname.includes("search.html")) {  // Ensure it's not the login page
+        loadContacts();  // Run the function only if not on the login page
+    }
+});
 async function loadContacts() {
     try {
 		url = urlBase + '/loadContacts.' + extension
