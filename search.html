@@ -19,8 +19,8 @@
 
 	<div id="addModal" class="modal">
 		<div class="modalContent">
-			<div class="modalHeader">
-				<button class="modalClose" id="close" onclick="closeModal()">Cancel</button>
+			<div class="addModalHeader">
+				<button class="modalClose" id="close" onclick="closeAddModal()">Cancel</button>
 				<h2>Add Contact</h2>
 			</div>
 
@@ -33,7 +33,30 @@
 
 				<input type="text" id="contactEmail" placeholder="Enter email" required><br><br>
 
-				<button type="button" onclick="createContact(); closeModal();">Add Contact</button>
+				<button type="button" onclick="createContact(); closeAddModal();">Add Contact</button>
+			</form>
+		</div>
+	</div>
+
+	<div id="updateModal" class="modal">
+		<div class="modalContent">
+			<div class="updateModalHeader">
+				<button class="modalClose" id="close" onclick="closeUpdateModal()">Cancel</button>
+				<h2>Add Contact</h2>
+			</div>
+
+			<form id="updateContactForm">
+				<input type="hidden" id="contactId" />
+
+				<input type="text" id="editContactFirstName" placeholder="Enter first name"><br><br>
+
+				<input type="text" id="editContactLastName" placeholder="Enter last name"><br><br>
+
+				<input type="text" id="editContactPhone" placeholder="Enter phone"><br><br>
+
+				<input type="text" id="editContactEmail" placeholder="Enter email"><br><br>
+
+				<button type="button" onclick="updateContact(); closeUpdateModal();">Update Contact</button>
 			</form>
 		</div>
 	</div>

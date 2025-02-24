@@ -173,7 +173,7 @@ body {
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15); /* Stronger depth effect */
 }
 
-.modalHeader {
+.addModalHeader {
     display: flex;
     align-items: center;
     justify-content: space-between; 

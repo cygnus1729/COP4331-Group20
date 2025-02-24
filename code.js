@@ -165,7 +165,7 @@ function openAddModal() {
 }
 
 // Close the modal
-function closeModal() {
+function closeAddModal() {
 	document.getElementById("addModal").style.display = "none";
 }
 
@@ -203,7 +203,7 @@ async function loadContacts() {
         		<span><strong></strong> ${contact.phone}</span>
         		<span><strong></strong> ${contact.email}</span>
 				<div class="button">
-					<button class="update" onclick="updateContact(${contact.id})">&#9998;</button>
+					<button class="update" onclick="openUpdateModal(${contact.id}, '${contact.firstName}', '${contact.lastName}', '${contact.phone}', '${contact.email}')">&#9998;</button>
             		<button class="delete" onclick="deleteContact(${contact.id}, '${contact.firstName}')">&#10006;</button>
 				</div>
 			`;
@@ -322,4 +322,53 @@ function deleteContact(contactId, firstName)
 		//	document.getElementById("contactAddResult").innerHTML = err.message;
 		}
 	}
+}
+
+function openUpdateModal(contactId, firstName, lastName, phone, email) {
+	document.getElementById("contactId").value = contactId; // Store ID
+    document.getElementById("editContactFirstName").value = firstName; // Pre-fill first name
+    document.getElementById("editContactLastName").value = lastName; // Pre-fill last name
+    document.getElementById("editContactPhone").value = phone; // Pre-fill phone
+    document.getElementById("editContactEmail").value = email; // Pre-fill email
+	document.getElementById("updateModal").style.display = "block";
+}
+
+// Close the modal
+function closeUpdateModal() {
+	document.getElementById("updateModal").style.display = "none";
+}
+
+function updateContact() {
+	let contactId = document.getElementById("contactId").value;
+	let newFirst = document.getElementById("editContactFirstName").value;
+	let newLast = document.getElementById("editContactLastName").value;
+	let newPhone = document.getElementById("editContactPhone").value;
+	let newEmail = document.getElementById("editContactEmail").value;
+	//document.getElementById("contactAddResult").innerHTML = "";
+
+	let tmp = {id:contactId,firstName:newFirst,lastName:newLast,phone:newPhone,email:newEmail};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/updateContact.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				loadContacts();
+	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+	//	document.getElementById("contactAddResult").innerHTML = err.message;
+	}
+	
 }
