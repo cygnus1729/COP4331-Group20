@@ -14,13 +14,7 @@
 
 		<button id="searchContact" onclick="searchContact()">Search Contact</button>
 		<div id="searchContactInput">
-			<input type="text" id="searchContactFirstName" placeholder="Enter first name" required><br><br>
-
-			<input type="text" id="searchContactLastName" placeholder="Enter last name" required><br><br>
-
-			<input type="text" id="searchContactPhone" placeholder="Enter phone" required><br><br>
-
-			<input type="text" id="searchContactEmail" placeholder="Enter email" required><br><br>
+			<input type="text" id="searchTerm" placeholder="Search" required><br><br>
 		</div>
 		<button id="logout" onclick="doLogout()">Logout</button>
 	</div>
@@ -54,7 +48,7 @@
 		<div class="modalContent">
 			<div class="updateModalHeader">
 				<button class="modalClose" id="close" onclick="closeUpdateModal()">Cancel</button>
-				<h2>Add Contact</h2>
+				<h2>Update Contact</h2>
 			</div>
 
 			<form id="updateContactForm">

@@ -260,50 +260,61 @@ function createContact()
 	
 }
 
-function searchContact()
-{
-	let searchFirst = document.getElementById("searchContactFirstName").value;
-	let searchLast = document.getElementById("searchContactLastName").value;
-	let searchPhone = document.getElementById("searchContactPhone").value;
-	let searchEmail = document.getElementById("searchContactEmail").value;
-	//document.getElementById("contactSearchResult").innerHTML = "";
+async function searchContact() {
+    try {
+        let searchTerm = document.getElementById("searchTerm").value;
+        let tmp = {searchTerm:searchTerm};
+        let jsonPayload = JSON.stringify(tmp);
 
-	let tmp = {firstName:searchFirst,lastName:searchLast,phone:searchPhone,email:searchEmail};
-	let jsonPayload = JSON.stringify( tmp );
+        let url = urlBase + "/searchContact." + extension; // Ensure URL is correct
 
-	let url = urlBase + '/searchContact.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-	//			document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					contactList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						contactList += "<br />\r\n";
-					}
-				}
-				
-	//			document.getElementsByTagName("p")[0].innerHTML = contactList;
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-	//	document.getElementById("contactSearchResult").innerHTML = err.message;
-	}
-	
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: jsonPayload,
+        });
+
+        const contacts = await response.json();
+        const container = document.getElementById("container");
+        container.innerHTML = ""; // Clear previous content
+
+        // Show error if no contacts are found
+        if (contacts.error) {
+            container.innerHTML = `<div style="color: red; text-align: center;">${contacts.error}</div>`;
+            return;
+        }
+
+        // Create a header row for the contact list
+        const headerCard = document.createElement("div");
+        headerCard.classList.add("headerCard");
+        headerCard.innerHTML = `
+            <span><strong>ID</strong></span>
+            <span><strong>Name</strong></span>
+            <span><strong>Phone</strong></span>
+            <span><strong>Email</strong></span>
+            <span><strong>Update/Delete</strong></span>
+        `;
+        container.appendChild(headerCard);
+
+        // Loop through contacts and display each one
+        contacts.forEach(contact => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `
+                <span><strong></strong> ${contact.id}</span>
+                <span><strong></strong> ${contact.firstName} ${contact.lastName}</span>
+                <span><strong></strong> ${contact.phone}</span>
+                <span><strong></strong> ${contact.email}</span>
+                <div class="button">
+                    <button class="update" onclick="openUpdateModal(${contact.id}, '${contact.firstName}', '${contact.lastName}', '${contact.phone}', '${contact.email}')">&#9998;</button>
+                    <button class="delete" onclick="deleteContact(${contact.id}, '${contact.firstName}')">&#10006;</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Error searching contacts:", error);
+    }
 }
 
 function deleteContact(contactId, firstName)
