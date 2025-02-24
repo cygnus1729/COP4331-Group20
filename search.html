@@ -11,7 +11,17 @@
 
 	<div class="sidebar">
 		<button id="addContact" onclick="openAddModal()">Add Contact</button>
-		<button id="searchContact">Search Contact</button>
+
+		<button id="searchContact" onclick="searchContact()">Search Contact</button>
+		<div id="searchContactInput">
+			<input type="text" id="searchContactFirstName" placeholder="Enter first name" required><br><br>
+
+			<input type="text" id="searchContactLastName" placeholder="Enter last name" required><br><br>
+
+			<input type="text" id="searchContactPhone" placeholder="Enter phone" required><br><br>
+
+			<input type="text" id="searchContactEmail" placeholder="Enter email" required><br><br>
+		</div>
 		<button id="logout" onclick="doLogout()">Logout</button>
 	</div>
 
@@ -33,7 +43,9 @@
 
 				<input type="text" id="contactEmail" placeholder="Enter email" required><br><br>
 
-				<button type="button" onclick="createContact(); closeAddModal();">Add Contact</button>
+				<button type="button" onclick="createContact();">Add Contact</button>
+
+				<div id="addErrorMessage" style="color: red; margin-top: 10px;"></div>
 			</form>
 		</div>
 	</div>
@@ -56,7 +68,9 @@
 
 				<input type="text" id="editContactEmail" placeholder="Enter email"><br><br>
 
-				<button type="button" onclick="updateContact(); closeUpdateModal();">Update Contact</button>
+				<button type="button" onclick="updateContact();">Update Contact</button>
+
+				<div id="updateErrorMessage" style="color: red; margin-top: 10px;"></div>
 			</form>
 		</div>
 	</div>

@@ -21,7 +21,7 @@ body {
     width: 90%;
     margin: 10px auto;
     padding: 10px;
-    background: #ba9b37; /* Blue color */
+    background: #ba9b37;
     color: white;
     border: none;
     border-radius: 5px;
@@ -29,12 +29,18 @@ body {
     font-size: 16px;
 }
 
+.sidebar #searchContactInput input {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
 .sidebar #logout{
     display: block;
     width: 90%;
     margin: 30px auto;
     padding: 10px;
-    background: #b23b3b; /* Blue color */
+    background: #b23b3b;
     color: white;
     border: none;
     border-radius: 5px;

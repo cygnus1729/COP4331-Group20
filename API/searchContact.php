@@ -2,9 +2,10 @@
     # input from frontend
     $inData = getRequestInfo();
         
-    $id = 0;
-    $firstName = "";
-    $lastName = "";
+    $firstName = $inData["firstName"];
+	$lastName = $inData["lastName"];
+	$phone = $inData["phone"];
+	$email = $inData["email"];
 
     # connect to database CONTACTSMANAGER on lacalhost server, as root with password
     $conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");

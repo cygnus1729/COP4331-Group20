@@ -159,16 +159,6 @@ function createUser()
 	}
 }
 
-// Open the modal
-function openAddModal() {
-	document.getElementById("addModal").style.display = "block";
-}
-
-// Close the modal
-function closeAddModal() {
-	document.getElementById("addModal").style.display = "none";
-}
-
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.pathname.includes("search.html")) {  // Ensure it's not the login page
         loadContacts();  // Run the function only if not on the login page
@@ -214,6 +204,17 @@ async function loadContacts() {
     }
 }
 
+// Open the modal
+function openAddModal() {
+	document.getElementById("addModal").style.display = "block";
+}
+
+// Close the modal
+function closeAddModal() {
+	document.getElementById("addModal").style.display = "none";
+	addErrorMessage.innerHTML = "";
+}
+
 function createContact()
 {
 	let newFirst = document.getElementById("contactFirstName").value;
@@ -221,6 +222,14 @@ function createContact()
 	let newPhone = document.getElementById("contactPhone").value;
 	let newEmail = document.getElementById("contactEmail").value;
 	//document.getElementById("contactAddResult").innerHTML = "";
+
+	addErrorMessage.innerHTML = "";
+
+	if(newFirst == "" || newLast == "" || newPhone == "" || newEmail == "") 
+	{
+		addErrorMessage.innerHTML = "All fields are required!";
+        return;
+	}
 
 	let tmp = {firstName:newFirst,lastName:newLast,phone:newPhone,email:newEmail};
 	let jsonPayload = JSON.stringify( tmp );
@@ -237,6 +246,8 @@ function createContact()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				loadContacts();
+				closeAddModal();
+				document.getElementById("addContactForm").reset();
 	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
@@ -251,12 +262,13 @@ function createContact()
 
 function searchContact()
 {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("contactSearchResult").innerHTML = "";
-	
-	let contactList = "";
+	let searchFirst = document.getElementById("searchContactFirstName").value;
+	let searchLast = document.getElementById("searchContactLastName").value;
+	let searchPhone = document.getElementById("searchContactPhone").value;
+	let searchEmail = document.getElementById("searchContactEmail").value;
+	//document.getElementById("contactSearchResult").innerHTML = "";
 
-	let tmp = {search:srch,userId:userId};
+	let tmp = {firstName:searchFirst,lastName:searchLast,phone:searchPhone,email:searchEmail};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/searchContact.' + extension;
@@ -270,7 +282,7 @@ function searchContact()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
+	//			document.getElementById("contactSearchResult").innerHTML = "Contact(s) has been retrieved";
 				let jsonObject = JSON.parse( xhr.responseText );
 				
 				for( let i=0; i<jsonObject.results.length; i++ )
@@ -282,14 +294,14 @@ function searchContact()
 					}
 				}
 				
-				document.getElementsByTagName("p")[0].innerHTML = contactList;
+	//			document.getElementsByTagName("p")[0].innerHTML = contactList;
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("contactSearchResult").innerHTML = err.message;
+	//	document.getElementById("contactSearchResult").innerHTML = err.message;
 	}
 	
 }
@@ -336,6 +348,7 @@ function openUpdateModal(contactId, firstName, lastName, phone, email) {
 // Close the modal
 function closeUpdateModal() {
 	document.getElementById("updateModal").style.display = "none";
+	updateErrorMessage.innerHTML = "";
 }
 
 function updateContact() {
@@ -345,6 +358,14 @@ function updateContact() {
 	let newPhone = document.getElementById("editContactPhone").value;
 	let newEmail = document.getElementById("editContactEmail").value;
 	//document.getElementById("contactAddResult").innerHTML = "";
+
+	updateErrorMessage.innerHTML = "";
+
+	if(newFirst == "" || newLast == "" || newPhone == "" || newEmail == "") 
+	{
+		updateErrorMessage.innerHTML = "All fields are required!";
+        return;
+	}
 
 	let tmp = {id:contactId,firstName:newFirst,lastName:newLast,phone:newPhone,email:newEmail};
 	let jsonPayload = JSON.stringify( tmp );
@@ -361,6 +382,7 @@ function updateContact() {
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				loadContacts();
+				closeUpdateModal();
 	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
 		};
