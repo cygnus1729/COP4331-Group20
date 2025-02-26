@@ -9,7 +9,7 @@
     $lastName = "";
 
     # connect to database CONTACTSMANAGER on lacalhost server, as root with password (changed for local hosting)
-    $conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
+    $conn = new mysqli("localhost", "root", "k36oDQwM+jc6", "CONTACTSMANAGER");
     if( $conn->connect_error )
 	{
 		returnWithError( $conn->connect_error );
