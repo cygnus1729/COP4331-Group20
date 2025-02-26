@@ -1,0 +1,32 @@
+create database CONTACTSMANAGER;
+use CONTACTSMANAGER;
+
+CREATE TABLE `CONTACTSMANAGER`.`Users` 
+(
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `FirstName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `LastName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Login` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Password` VARCHAR(50) NOT NULL DEFAULT '' ,
+  PRIMARY KEY (`ID`)
+) ENGINE = InnoDB;
+
+CREATE TABLE `CONTACTSMANAGER`.`Contacts` 
+(
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `FirstName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `LastName` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Phone` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `Email` VARCHAR(50) NOT NULL DEFAULT '' ,
+  `UserID` INT NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`ID`) 
+) ENGINE = InnoDB;
+
+insert into Contacts (FirstName, LastName, Phone, Email, UserID) VALUES ('Bob', 'Smith', '123-456-789', 'bobsmith@mail.com', 1);
+insert into Contacts (FirstName, LastName, Phone, Email, UserID) VALUES ('Rebecca', 'Johnson', '444-555-666', 'rj@mail.com', 2);
+insert into Contacts (FirstName, LastName, Phone, Email, UserID) VALUES ('TestName', 'TestSurname', '987-654-321', 'testemail@mail.com', 3);
+
+insert into Users (FirstName, LastName) VALUES ('User1', 'LastName1');
+insert into Users (FirstName, LastName) VALUES ('User2', 'LastName2');
+
+SELECT * FROM CONTACTSMANAGER.Contacts;

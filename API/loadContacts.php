@@ -1,9 +1,5 @@
 <?php
     session_start();
-
-	$inData = getRequestInfo();
-
-	$searchTerm = $inData["searchTerm"];
     
     if (isset($_SESSION['userId'])) {
         $userId = $_SESSION['userId'];
@@ -18,14 +14,9 @@
         returnWithError($conn->connect_error);
     } else {
 
-		if ($searchTerm != '') {
-    		$searchTerm = "%$searchTerm%";
-    		$stmt = $conn->prepare("SELECT * FROM contacts WHERE UserID = ? AND (FirstName LIKE ? OR LastName LIKE ? OR Phone LIKE ? OR Email LIKE ? OR ID LIKE ?) LIMIT 8");
-    		$stmt->bind_param("isssss", $userId, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
-		} else {
-    		$stmt = $conn->prepare("SELECT * FROM contacts WHERE UserID = ?");
-    		$stmt->bind_param("i", $userId);
-		}
+        # Query to get all contacts
+        $stmt = $conn->prepare("SELECT * FROM contacts WHERE UserID = ?");
+        $stmt->bind_param("i", $userId);
 
         $stmt->execute();
 
@@ -52,16 +43,10 @@
         $conn->close();
     }
 
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
-
-	function sendResultInfoAsJson($obj)
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
+    function sendResultInfoAsJson($obj) {
+        header('Content-type: application/json');
+        echo $obj;
+    }
 
     function returnWithError($error) {
         sendResultInfoAsJson(json_encode(array("error" => $error)));

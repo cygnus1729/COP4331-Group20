@@ -1,6 +1,9 @@
 <?php
 	ini_set('display_errors', 1);
 	error_reporting(E_ALL);
+
+	session_start();
+
     # input from frontend
     $inData = getRequestInfo();
         
@@ -40,6 +43,8 @@
         # close connection to database
 		$stmt->close();
 		$conn->close();
+
+		$_SESSION['userId'] = $row['ID'];
 	}
 
     function getRequestInfo()
