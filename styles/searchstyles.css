@@ -3,12 +3,16 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    background: linear-gradient(225deg, #F5F5F5, #5e5e5e);
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column; /* Ensures vertical stacking */
+    align-items: center;
     width: 250px;
     height: 100vh; /* Full height */
-    background: #333; /* Dark background */
+    background: linear-gradient(to bottom, #555, #222);
     padding-top: 20px;
     position: fixed; /* Stays in place when scrolling */
     left: 0;
@@ -27,9 +31,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar #searchContactInput input {
+.sidebar input {
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
@@ -84,8 +89,8 @@ body {
     gap: 10px; /* Ensure spacing between columns */
     border-radius: 12px;
     padding: 10px;
-    background: #b0b0b0;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(225deg, #F5F5F5, #868686);
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.8);
     width: 100%;
     min-height: 30px;
     overflow-y: auto;
@@ -96,11 +101,11 @@ body {
     grid-template-columns: 50px 1fr 1fr 1fr 1fr; /* Adjust columns to match the data fields */
     align-items: center; /* Align text vertically */
     gap: 10px; /* Ensure spacing between columns */
-    border: 1px solid #ddd;
+    border: 1px solid #868686;
     border-radius: 12px;
     padding: 10px;
-    background: #f9f9f9;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, white, #c6c6c6);
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
     width: 100%;
     min-height: 30px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -109,7 +114,7 @@ body {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.35);
 }
 
 .card p {
@@ -179,14 +184,6 @@ body {
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15); /* Stronger depth effect */
 }
 
-.addModalHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    width: 100%;
-    padding-bottom: 10px;
-}
-
 .modalContent h2 {
     font-size: 22px;
     color: #222;
@@ -228,14 +225,14 @@ body {
 }
 
 #addContactForm input:focus {
-    border-color: #007bff;
+    border-color: black;
     outline: none;
 }
 
 /* ADD BUTTON */
 #addContactForm button {
     width: 100%;
-    background: #007bff;
+    background: #0096FF;
     color: white;
     padding: 12px;
     border: none;
@@ -246,7 +243,45 @@ body {
 }
 
 #addContactForm button:hover {
-    background: #0056b3;
+    background: #007acc;
 }
+
+#updateContactForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+/* INPUT FIELDS */
+#updateContactForm input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+#updateContactForm input:focus {
+    border-color: black;
+    outline: none;
+}
+
+/* ADD BUTTON */
+#updateContactForm button {
+    width: 100%;
+    background: #0096FF;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#updateContactForm button:hover {
+    background: #007acc;
+}
+
 
 

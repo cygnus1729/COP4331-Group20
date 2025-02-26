@@ -23,7 +23,7 @@ if (!isset($input['id'], $input['firstName'], $input['lastName'], $input['phone'
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "", "CONTACTSMANAGER");
+$conn = new mysqli("54.175.158.14", "root", "k36oDQwM+jc6", "CONTACTSMANAGER");
 
 if ($conn->connect_error) {
     sendResponse(["error" => "Database connection failed: " . $conn->connect_error]);

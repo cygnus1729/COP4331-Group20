@@ -1,4 +1,4 @@
-const urlBase = 'http://localhost/API';
+const urlBase = 'http://www.cop4331-group20.xyz/API';
 const extension = 'php';
 
 let userId = 0;
@@ -14,7 +14,10 @@ function doLogin()
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
-	
+	if (login == "" || password == "") {
+		loginErrorMessage.innerHTML = "Must enter Username/Password!";
+		return;
+	}
 //	document.getElementById("loginResult").innerHTML = "";
 	
 	let tmp = {login:login,password:password};
@@ -32,15 +35,22 @@ function doLogin()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				console.log(xhr.responseText);
+				try {
+					let jsonObject = JSON.parse( xhr.responseText );
+				} catch {
+					loginErrorMessage.innerHTML = "Invalid Username/Password!";
+					return;
+				}
 				let jsonObject = JSON.parse( xhr.responseText );
+
 				userId = jsonObject.id;
 		
 				if( userId < 1 )
 				{	
-//					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
-				}
-		
+				} 
+
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
@@ -133,6 +143,15 @@ function createUser()
 	let newPassword = document.getElementById("password").value;
 //	document.getElementById("userAddResult").innerHTML = "";
 
+	userCreatedMessage.innerHTML = "";
+	userErrorMessage.innerHTML = "";
+
+	if(newFirst == "" || newLast == "" || newLogin == "" || newPassword == "") 
+	{
+		userErrorMessage.innerHTML = "All fields are required!";
+        return;
+	}
+
 	let tmp = {firstName:newFirst,lastName:newLast,username:newLogin,password:newPassword};
 	let jsonPayload = JSON.stringify( tmp );
 
@@ -147,6 +166,7 @@ function createUser()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
+				userCreatedMessage.innerHTML = "User Created!";
 //				document.getElementById("userAddResult").innerHTML = "User has been added";
 			}
 		};
@@ -159,7 +179,7 @@ function createUser()
 	}
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     if (window.location.pathname.includes("search.html")) {  // Ensure it's not the login page
         loadContacts();  // Run the function only if not on the login page
     }
@@ -202,7 +222,7 @@ async function loadContacts() {
     } catch (error) {
         console.error("Error loading contacts:", error);
     }
-}
+}*/
 
 // Open the modal
 function openAddModal() {
@@ -245,7 +265,7 @@ function createContact()
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				loadContacts();
+				searchContact();
 				closeAddModal();
 				document.getElementById("addContactForm").reset();
 	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
@@ -260,6 +280,11 @@ function createContact()
 	
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.pathname.includes("search.html")) {  // Ensure it's not the login page
+        searchContact();  // Run the function only if not on the login page
+    }
+});
 async function searchContact() {
     try {
         let searchTerm = document.getElementById("searchTerm").value;
@@ -280,7 +305,7 @@ async function searchContact() {
 
         // Show error if no contacts are found
         if (contacts.error) {
-            container.innerHTML = `<div style="color: red; text-align: center;">${contacts.error}</div>`;
+            container.innerHTML = `<div style="color: white; text-align: center;">${contacts.error}</div>`;
             return;
         }
 
@@ -334,7 +359,7 @@ function deleteContact(contactId, firstName)
 			{
 				if (this.readyState == 4 && this.status == 200) 
 				{
-					loadContacts();
+					searchContact();
 	//				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 				}
 			};
@@ -392,7 +417,7 @@ function updateContact() {
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				loadContacts();
+				searchContact();
 				closeUpdateModal();
 	//			document.getElementById("contactAddResult").innerHTML = "Contact has been added";
 			}
